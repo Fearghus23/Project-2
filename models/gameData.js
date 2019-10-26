@@ -1,39 +1,39 @@
 module.exports = function(sequelize, DataTypes) {
-  var GameData = sequelize.define("Gamedata", {
+  var GameData = sequelize.define("GameData", {
     curentLevel: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 1
     },
     unlockedLevel: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 1
     },
     lives: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 3
     },
     score: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     currency: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 100
     },
     powerupSlow: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     powerupFreeze: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     powerupDestroy: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     powerup4: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     }
   });
