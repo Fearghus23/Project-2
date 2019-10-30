@@ -5,7 +5,7 @@ module.exports = {
   development: {
     username: "root",
     password: process.env.DB_PASS,
-    database: "exampledb",
+    database: "codeInvaders_db",
     host: "localhost",
     dialect: "mysql"
   },
