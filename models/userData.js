@@ -14,6 +14,14 @@ module.exports = function(sequelize, DataTypes) {
         charset: "alphanumeric"
       })
     },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     username: {
       type: DataTypes.STRING,
       unique: true,
