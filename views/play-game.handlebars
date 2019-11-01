@@ -1,6 +1,6 @@
- <!-- header -->
+  <!-- header -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="#">
         <img src="./logo/Code-Invaders.png" height="30" alt="Home">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white" href="/">Sign Up</a>
+          <a class="nav-link text-white" href="/sign-in">Sign In</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="/leaderboards">Leaderboards</a>
@@ -31,17 +31,9 @@
     <br />
     <!-- sign up card -->
     <div class="row">
-      <div class="card bg-dark border-dark text-white mb-3 mx-auto">
+      <div class="card bg-dark border-dark text-white mb-3 mx-auto" style="width: 50rem; height: 40rem;">
         <div class="card-body">
-          <h4 class="card-title">Sign In</h4>
-          <form>
-            <input class="form-control border-dark mx-auto" id="username" placeholder="Username" style="max-width: 20rem;">
-            <input class="form-control border-dark mx-auto" id="password" placeholder="Password" style="max-width: 20rem;">
-            <br />
-
-            <button type="submit" class="btn btn-success btn-lg text-body">Sign In</button>
-            <p class="text-muted">Need an account? <a class="text-primary" href="/">Sign up</a></p>
-          </form>
+          {{Game}}
         </div>
       </div>
       
