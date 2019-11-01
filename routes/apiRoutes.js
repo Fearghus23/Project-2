@@ -1,4 +1,5 @@
 var db = require("../models");
+var randomstring = require("randomstring");
 
 module.exports = function(app) {
   // Get all examples
@@ -10,20 +11,24 @@ module.exports = function(app) {
 
   // Create a new user
   app.post("/api/new-user", function(req, res) {
-    // try {
-    console.log("we are in new user route");
+    let ID = randomstring.generate({
+      length: 14,
+      charset: "alphanumeric"
+    })
+    req.body.playerID = ID;
     db.UserData.create(req.body)
       .then(function(newUser) {
-        console.log("we are in");
         res.json(newUser);
+        app.post("/api/new-game-data", function(req, res){
+          req.body.playerID = ID;
+          db.GameData.create(req.body).then(function(newGameData){
+            res.json(newGameData);
+          })
+        })
       })
       .catch(function(err) {
         console.log("error in auth is: ", err);
         res.json({ error: err.errors[0].message });
       });
-    // } catch (error) {
-    //   console.log(error);
-    //   res.send("Username taken!");
-    // }
   });
 };
