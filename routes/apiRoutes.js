@@ -13,7 +13,7 @@ module.exports = function(app) {
       where: {
         username: req.params.username
       }
-    }).then(function(data){
+    }).then(function(data) {
       console.log(data);
       res.json(data);
     });
