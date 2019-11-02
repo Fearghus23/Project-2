@@ -1,4 +1,5 @@
 var db = require("../models");
+var randomstring = require("randomstring");
 
 module.exports = function(app) {
   // Get all examples
@@ -7,20 +8,38 @@ module.exports = function(app) {
       res.json(dbExamples);
     });
   });
-
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
+  app.get("/api/all-users", function(req, res) {
+    db.UserData.findOne({
+      where: {
+        username: req.params.username
+      }
+    }).then(function(data) {
+      console.log(data);
+      res.json(data);
     });
   });
 
-  // Delete an example by id
-  app.delete("/api/examples/:id", function(req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function(
-      dbExample
-    ) {
-      res.json(dbExample);
+  // Create a new user
+  app.post("/api/new-user", function(req, res) {
+    let ID = randomstring.generate({
+      length: 14,
+      charset: "alphanumeric"
     });
+    const playerObj = req.body;
+    playerObj.playerID = ID;
+    db.UserData.create(playerObj)
+      .then(function(newUser) {
+        db.GameData.create({ UserDatumPlayerID: ID })
+          .then(function(newGameData) {
+            res.json({ newGameData, newUser });
+          })
+          .catch(function(err) {
+            console.log("error in gameDataCreate: ", err);
+          });
+      })
+      .catch(function(err) {
+        console.log("error in auth is: ", err);
+        res.json({ error: err.errors[0].message });
+      });
   });
 };
