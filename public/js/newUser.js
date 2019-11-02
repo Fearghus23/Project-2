@@ -19,10 +19,11 @@ $("#create-user").on("click", function(event) {
       console.log(res);
       if (res.error) {
         alert(res.error);
+      } else {
+        // Account created! redirect to game page with new user logged in.
+        window.location +=
+          "play-game/" + res.newUser.username + "/" + res.newUser.playerID;
       }
-      // $.post("/api/new-game-data", { playerID }).then(function(res) {
-      //   console.log(res);
-      // });
     });
   } else {
     alert("Passwords do not match!");

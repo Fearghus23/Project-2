@@ -1,18 +1,13 @@
 // randomstring package for creating unique player IDs
 // https://www.npmjs.com/package/randomstring
 
-const randomstring = require("randomstring");
-
 module.exports = function(sequelize, DataTypes) {
   var UserData = sequelize.define("UserData", {
     playerID: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: randomstring.generate({
-        length: 14,
-        charset: "alphanumeric"
-      })
+      primaryKey: true
     },
     firstName: {
       type: DataTypes.STRING,

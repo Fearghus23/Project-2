@@ -8,23 +8,34 @@ module.exports = function(app) {
       res.json(dbExamples);
     });
   });
+  app.get("/api/all-users", function(req, res) {
+    db.UserData.findOne({
+      where: {
+        username: req.params.username
+      }
+    }).then(function(data){
+      console.log(data);
+      res.json(data);
+    });
+  });
 
   // Create a new user
   app.post("/api/new-user", function(req, res) {
     let ID = randomstring.generate({
       length: 14,
       charset: "alphanumeric"
-    })
-    req.body.playerID = ID;
-    db.UserData.create(req.body)
+    });
+    const playerObj = req.body;
+    playerObj.playerID = ID;
+    db.UserData.create(playerObj)
       .then(function(newUser) {
-        res.json(newUser);
-        app.post("/api/new-game-data", function(req, res){
-          req.body.playerID = ID;
-          db.GameData.create(req.body).then(function(newGameData){
-            res.json(newGameData);
+        db.GameData.create({ UserDatumPlayerID: ID })
+          .then(function(newGameData) {
+            res.json({ newGameData, newUser });
           })
-        })
+          .catch(function(err) {
+            console.log("error in gameDataCreate: ", err);
+          });
       })
       .catch(function(err) {
         console.log("error in auth is: ", err);

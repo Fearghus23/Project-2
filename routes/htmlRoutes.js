@@ -1,7 +1,7 @@
 var db = require("../models");
 
 module.exports = function(app) {
-  // Load index page
+  // Load home page
   app.get("/", function(req, res) {
     res.render("sign-up");
   });
@@ -11,12 +11,13 @@ module.exports = function(app) {
   app.get("/leaderboards", function(req, res) {
     res.render("leaderboards");
   });
+  // Load game with no user data
   app.get("/play-game", function(req, res) {
     res.render("play-game");
   });
 
-  // Load example page and pass in an example by id
-  app.get("/:username/:playerID", function(req, res) {
+  // Load game with user data
+  app.get("/play-game/:username/:playerID", function(req, res) {
     db.UserData.findOne({
       where: { username: req.params.username, playerID: req.params.playerID }
     }).then(function(dbUserData) {
