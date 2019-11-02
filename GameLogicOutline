@@ -1,0 +1,39 @@
+Starting point
+___________________
+
+Need to add in a main page and a game page. 
+
+Need to have a start and load function on the main page. - Two buttons for that load function
+
+Then need to create an objec for the bombs or whichever to display the word and check the entered typing for the displayed words. 
+
+Create a  grid in which the objects and enemies populate. 
+
+Need to pull the names for the ships/enemies from an array of pre-defined terms, or from some api library. 
+
+Enemies need to be animated to move from one end of the screen to the other, once hitting a certain point (add collistion to a ground level element.) 
+player takes damage and loses a life. 
+
+Add more levels where the speed/strength/difficulty of those words increases and the game gets harder. 
+
+
+--------------------
+
+Once these are done, need to add the following features. 
+
+*Power-ups, decrease the enemy speed/Destroy enemies/Freeze time. 
+
+*Lives player needs to have a set of lives and once depleted the game is over and player must restart the level. 
+
+
+*Create a save state at the end of the level. 
+
+*Bullet tracking, make a new animated object that will track from the player sprite to the enemy sprite and delete that object. 
+
+*Export the player data to a database. 
+
+First functions: 
+
+Get the game logic working once the game is in a working state start adding features such as saves, powerups, etc. 
+
+Implement the array of words into the enemies. 
