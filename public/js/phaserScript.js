@@ -1,7 +1,10 @@
+console.log("phaser alive")
+// eslint-disable-next-line no-unused-vars
 var config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  parent: "code-invaders",
   physics: {
     default: "arcade",
     arcade: {
