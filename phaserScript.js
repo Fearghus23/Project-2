@@ -3,25 +3,25 @@ var config = {
   width: 800,
   height: 600,
   physics: {
-      default: 'arcade',
-      arcade: {
-          gravity: { y: 300 },
-          debug: true
-      }
+    default: "arcade",
+    arcade: {
+      gravity: { y: 300 },
+      debug: true
+    }
   },
   scene: {
-      preload: preload,
-      create: create,
-      update: update
+    preload: preload,
+    create: create,
+    update: update
   }
 };
-
+// eslint-disable-next-line no-unused-vars
 var currentWord = [];
 var input = [];
 
-
-
+// eslint-disable-next-line no-unused-vars
 var current;
+// eslint-disable-next-line no-unused-vars
 var gameOver = false;
 var keyQ;
 var keyW;
@@ -49,26 +49,17 @@ var keyV;
 var keyB;
 var keyN;
 var keyM;
+// eslint-disable-next-line no-unused-vars
 var characters;
-
-
+// eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
 
-
-
 function preload() {
-  this.load.image('background', 'assets/testspace.jpg');
-  this.load.image('bomb', 'assets/bomb.png');
-
-
-
+  this.load.image("background", "assets/testspace.jpg");
+  this.load.image("bomb", "assets/bomb.png");
 }
 
-
-
 function create() {
-
-
   // Inputs
   keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -96,13 +87,16 @@ function create() {
   keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
   keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
   keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+  // eslint-disable-next-line no-unused-vars
   var inputText;
+  // eslint-disable-next-line no-unused-vars
   var score = 0;
+  // eslint-disable-next-line no-unused-vars
   var scoreText;
 
-  var image1 = this.add.image(0, -30, 'bomb');
-  var image2 = this.add.text(-40, 30, 'bomb');
-  var image3 = this.add.image(40, 30, 'bomb');
+  var image1 = this.add.image(0, -30, "bomb");
+  var image2 = this.add.text(-40, 30, "bomb");
+  var image3 = this.add.image(40, 30, "bomb");
 
   container = this.add.container(400, 200, [image1, image2, image3]);
 
@@ -112,177 +106,139 @@ function create() {
 
   this.physics.world.enable(container);
 
-  container.body.setVelocity(100, 200).setBounce(1, 1).setCollideWorldBounds(true);
+  container.body
+    .setVelocity(100, 200)
+    .setBounce(1, 1)
+    .setCollideWorldBounds(true);
 
-
-
-
-
-
-
-
-
-  // Already entered letters: 
-
-
+  // Already entered letters:
 }
 
 function update() {
-  this.add.image(400, 300, 'background');
+  this.add.image(400, 300, "background");
 
-  this.add.image('bomb');
-
+  this.add.image("bomb");
 
   if (container.body.velocity.x < 0) {
-      container.rotation -= 0.02;
+    container.rotation -= 0.02;
+  } else {
+    container.rotation += 0.02;
   }
-  else {
-      container.rotation += 0.02;
-  }
-
 
   if (Phaser.Input.Keyboard.JustDown(keyQ)) {
-
-      input.push('Q')
-      console.log(input);
-
+    input.push("Q");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyW)) {
-
-      input.push('W');
-      console.log(input);
+    input.push("W");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyE)) {
-
-      input.push('E');
-      console.log(input);
-
+    input.push("E");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyR)) {
-
-      input.push('R');
-      console.log(input);
-
+    input.push("R");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyT)) {
-
-      input.push('T');
-      console.log(input);
+    input.push("T");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyY)) {
-
-      input.push('Y');
-      console.log(input);
+    input.push("Y");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyU)) {
-
-      input.push('U');
-      console.log(input);
+    input.push("U");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyI)) {
-
-      input.push('I');
-      console.log(input);
+    input.push("I");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyO)) {
-
-      input.push('O');
-      console.log(input);
+    input.push("O");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyP)) {
-
-      input.push('P');
-      console.log(input);
+    input.push("P");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyA)) {
-
-      input.push('A');
-      console.log(input);
+    input.push("A");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyS)) {
-
-      input.push('S');
-      console.log(input);
+    input.push("S");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyD)) {
-
-      input.push('D');
-      console.log(input);
+    input.push("D");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyF)) {
-
-      input.push('F');
-      console.log(input);
+    input.push("F");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyG)) {
-
-      input.push('G');
-      console.log(input);
+    input.push("G");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyH)) {
-
-      input.push('H');
-      console.log(input);
+    input.push("H");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyJ)) {
-
-      input.push('J');
-      console.log(input);
+    input.push("J");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyK)) {
-
-      input.push('K');
-      console.log(input);
+    input.push("K");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyL)) {
-
-      input.push('L');
-      console.log(input);
+    input.push("L");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyZ)) {
-
-      input.push('Z');
-      console.log(input);
+    input.push("Z");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyX)) {
-
-      input.push('X');
-      console.log(input);
+    input.push("X");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyC)) {
-
-      input.push('C');
-      console.log(input);
+    input.push("C");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyV)) {
-
-      input.push('V');
-      console.log(input);
+    input.push("V");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyB)) {
-
-      input.push('B');
-      console.log(input);
+    input.push("B");
+    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyN)) {
-
-      input.push('N');
-      console.log(input);
-      inputText.setText(input);
+    input.push("N");
+    console.log(input);
+    inputText.setText(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyM)) {
+    input.push("M");
+    console.log(input);
 
-      input.push('M');
-      console.log(input);
-
-      inputText.setText(input);
+    inputText.setText(input);
   }
 
-  scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-  inputText = this.add.text(16, 35, 'Entered Letters: ' + input, { fontSize: '32px', fill: '#000' });
-
-
-
-
-
+  scoreText = this.add.text(16, 16, "score: 0", {
+    fontSize: "32px",
+    fill: "#000"
+  });
+  inputText = this.add.text(16, 35, "Entered Letters: " + input, {
+    fontSize: "32px",
+    fill: "#000"
+  });
 }

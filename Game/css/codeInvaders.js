@@ -1,4 +1,5 @@
 import { KeyObject } from "crypto";
+const KeyObject = require("crypto");
 
 var config = {
   type: Phaser.Auto, 
