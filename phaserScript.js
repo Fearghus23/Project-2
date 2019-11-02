@@ -57,7 +57,7 @@ var game = new Phaser.Game(config);
 
 
 function preload() {
-  this.load.image('background', 'assets/sky.png');
+  this.load.image('background', 'assets/testspace.jpg');
   this.load.image('bomb', 'assets/bomb.png');
 
 
