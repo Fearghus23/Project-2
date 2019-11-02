@@ -2,12 +2,10 @@ var config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  backgroundColor: '#010101',
-  parent: 'phaser-example',
   physics: {
       default: 'arcade',
       arcade: {
-          gravity: { y: 200 },
+          gravity: { y: 300 },
           debug: true
       }
   },
@@ -18,7 +16,6 @@ var config = {
   }
 };
 
-var container;
 var currentWord = [];
 var input = [];
 
@@ -53,32 +50,26 @@ var keyB;
 var keyN;
 var keyM;
 var characters;
-var container; 
+
 
 var game = new Phaser.Game(config);
 
+
+
 function preload() {
-  this.load.image('background', 'assets/testspace.jpg')
+  this.load.image('background', 'assets/sky.png');
   this.load.image('bomb', 'assets/bomb.png');
+
+
 
 }
 
+
+
 function create() {
-  this.add.image(400, 300, 'background'); 
-  var image1 = this.add.text(0, -30, currentWord);
-  var image2 = this.add.image(0, -30, 'bomb');
-  
 
-  container = this.add.container(400, 200, [image1, image2]);
 
-  //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
-  //  body or it'll be given the default body size of 64x64.
-  container.setSize(128, 64);
-
-  this.physics.world.enable(container);
-
-  container.body.setVelocity(100, 200).setBounce(1, 1).setCollideWorldBounds(true);
-
+  // Inputs
   keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
   keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
@@ -108,16 +99,48 @@ function create() {
   var inputText;
   var score = 0;
   var scoreText;
+
+  var image1 = this.add.image(0, -30, 'bomb');
+  var image2 = this.add.text(-40, 30, 'bomb');
+  var image3 = this.add.image(40, 30, 'bomb');
+
+  container = this.add.container(400, 200, [image1, image2, image3]);
+
+  //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
+  //  body or it'll be given the default body size of 64x64.
+  container.setSize(128, 64);
+
+  this.physics.world.enable(container);
+
+  container.body.setVelocity(100, 200).setBounce(1, 1).setCollideWorldBounds(true);
+
+
+
+
+
+
+
+
+
+  // Already entered letters: 
+
+
 }
 
 function update() {
+  this.add.image(400, 300, 'background');
 
+  this.add.image('bomb');
 
 
   if (container.body.velocity.x < 0) {
-      
+      container.rotation -= 0.02;
   }
-  
+  else {
+      container.rotation += 0.02;
+  }
+
+
   if (Phaser.Input.Keyboard.JustDown(keyQ)) {
 
       input.push('Q')
@@ -257,4 +280,9 @@ function update() {
 
   scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
   inputText = this.add.text(16, 35, 'Entered Letters: ' + input, { fontSize: '32px', fill: '#000' });
+
+
+
+
+
 }
