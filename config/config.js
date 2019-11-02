@@ -5,7 +5,7 @@ module.exports = {
   development: {
     username: "root",
     password: process.env.DB_PASS,
-    database: "exampledb",
+    database: "codeInvaders_db",
     host: "localhost",
     dialect: "mysql"
   },
@@ -19,6 +19,8 @@ module.exports = {
   },
   production: {
     use_env_variable: "JAWSDB_URL",
-    dialect: "mysql"
+    dialect: "mysql",
+    database: "exampledb",
+    host: "localhost"
   }
 };
