@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Making your first Phaser 3 Game - Part 1</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <title>Making your first Phaser 3 Game - Part 2</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.20.1/dist/phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -20,10 +20,12 @@
             type: Phaser.AUTO,
             width: 800,
             height: 600,
+            backgroundColor: '#010101',
+            parent: 'phaser-example',
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 300 },
+                    gravity: { y: 200 },
                     debug: true
                 }
             },
@@ -34,11 +36,12 @@
             }
         };
 
-        var currentWord = [];
+        var container;
+        var currentWord = ['TEST'];
         var input = [];
-
-
-
+        var inputText; 
+        var score = 0;
+        var scoreText;
         var current;
         var gameOver = false;
         var keyQ;
@@ -68,26 +71,35 @@
         var keyN;
         var keyM;
         var characters;
-
+        var container;
+        var Enter;
 
         var game = new Phaser.Game(config);
 
-
-
         function preload() {
-            this.load.image('background', 'assets/sky.png');
+            this.load.image('background', 'assets/sky.png')
             this.load.image('bomb', 'assets/bomb.png');
-
-
 
         }
 
-
-
         function create() {
+            this.add.image(400, 300, 'background');
+            var image1 = this.add.text(0, -30, currentWord);
+            // var image2 = this.add.image(0, -30, 'bomb');
 
 
-            // Inputs
+            container = this.add.container(400, 200, [image1]);
+
+            //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
+            //  body or it'll be given the default body size of 64x64.
+            container.setSize(0, 0);
+
+            this.physics.world.enable(container);
+
+            container.body.setVelocity(50, 50).setBounce(1, 1).setCollideWorldBounds(true);
+
+            // Input Events
+
             keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
             keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
             keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
@@ -114,50 +126,38 @@
             keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
             keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
             keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-            var inputText;
+            Enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+            
             var score = 0;
-            var scoreText;
-
-            var image1 = this.add.image(0, -30, 'bomb');
-            var image2 = this.add.text(-40, 30, 'bomb');
-            var image3 = this.add.image(40, 30, 'bomb');
-
-            container = this.add.container(400, 200, [image1, image2, image3]);
-
-            //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
-            //  body or it'll be given the default body size of 64x64.
-            container.setSize(128, 64);
-
-            this.physics.world.enable(container);
-
-            container.body.setVelocity(100, 200).setBounce(1, 1).setCollideWorldBounds(true);
 
 
+            // Score
 
+            scoreText = this.add.text(16, 16, 'score: 0', + { fontSize: '32px', fill: '#000' });
+            inputText = this.add.text(16, 35, "Letters chosen: ", { fontSize: '32px', fill: '#000' });
 
-
-
-
-
-
-            // Already entered letters: 
 
 
         }
 
+
+
         function update() {
-            this.add.image(400, 300, 'background');
 
-            this.add.image('bomb');
+            inputText.setText("Current: " + input); 
+            
 
 
-            if (container.body.velocity.x < 0) {
-                container.rotation -= 0.02;
-            }
-            else {
-                container.rotation += 0.02;
+
+            if (container.body.velocity.x < 0.1) {
+
             }
 
+            if (Phaser.Input.Keyboard.JustDown(Enter)) {
+                checkLogs(input, currentWord);
+
+
+            }
 
             if (Phaser.Input.Keyboard.JustDown(keyQ)) {
 
@@ -286,24 +286,64 @@
 
                 input.push('N');
                 console.log(input);
-                inputText.setText(input);
+
             }
             if (Phaser.Input.Keyboard.JustDown(keyM)) {
 
                 input.push('M');
                 console.log(input);
 
-                inputText.setText(input);
+
             }
 
-            scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-            inputText = this.add.text(16, 35, 'Entered Letters: ' + input, { fontSize: '32px', fill: '#000' });
+
+
+
+
 
 
 
 
 
         }
+
+
+
+        
+
+        function checkLogs(input, currentWord) {
+
+
+
+            var x = input.join("");
+            console.log(x);
+
+            if (x == currentWord) {
+
+
+
+                console.log(input);
+                input.length = 0;
+                console.log('correct'); 
+                score += 10;
+                scoreText.setText("Score: " + score);
+
+            } else {
+                input.length = 0;
+                console.log('NO');
+                
+
+            }
+
+
+
+
+        }
+
+
+
+
+
 
     </script>
 
