@@ -3,6 +3,14 @@ function Game() {}
 
 Game.prototype = {
   start: function() {
+    game.state.add("boot", BootState);
+    game.state.add("preload", PreloadState);
+    game.state.add("main-intro", MainIntroState);
+    game.state.add("main-menu", MainMenuState);
+    game.state.add("level-master", LevelMasterState);
+    game.state.add("level-intro", MainIntroState);
+    game.state.add("level-round", LevelRoundState);
+    game.state.start("boot");
     var config = {
       type: Phaser.AUTO,
       width: 800,
@@ -16,6 +24,7 @@ Game.prototype = {
           debug: false
         }
       },
+      
       scene: {
         preload: preload,
         create: create,
