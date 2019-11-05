@@ -19,19 +19,19 @@ var config = {
 };
 
 
-var wordArray =   
-["XML", "JSON", "OBJECT", "VARIABLE", "LET", "CONST",
- "PACKAGE", "TIM", "BODY",
- "LOCALHOST", "LINUX", "DB", "QUERY", "GET", 
- "POST", "FETCH", "DELETE", "VIEWS",
- "SCHEMA", "PUSH", "BASH"];
+var wordArray =
+  ["XML", "JSON", "OBJECT", "VARIABLE", "LET", "CONST",
+    "PACKAGE", "TIM", "BODY",
+    "LOCALHOST", "LINUX", "DB", "QUERY", "GET",
+    "POST", "FETCH", "DELETE", "VIEWS",
+    "SCHEMA", "PUSH", "BASH"];
 
 var currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
 var input = [];
 var inputText;
 var score = 0;
 var scoreText;
-var current;
+
 var gameOver = false;
 var keyQ;
 var keyW;
@@ -65,7 +65,7 @@ var Enter;
 var speed;
 var Backspace;
 var gameOver = false;
-var ships; 
+var ships;
 
 var game = new Phaser.Game(config);
 
@@ -129,22 +129,23 @@ function create() {
 
 
   // Creates a group of ships and iterates them over the screen. 
- 
- 
 
 
 
 
-   ships = this.physics.add.group({
+
+
+  ships = this.physics.add.group({
     key: 'ship3',
     repeat: 11,
     setXY: { x: 12, y: 0, stepX: 70 }
   });
 
-   // Collison effects for the ships and platform. 
-   this.physics.add.collider(ships, platforms);
-   // Collison affect to call the end of game. 
-   this.physics.add.overlap(platforms, ships, endIt, this);
+  // Collison effects for the ships and platform. 
+  this.physics.add.overlap(platforms, ships, endIt, null, this);
+  this.physics.add.collider(ships, platforms);
+  // Collison affect to call the end of game. 
+
 }
 
 
@@ -295,6 +296,8 @@ function update() {
   if (Phaser.Input.Keyboard.JustDown(Backspace)) {
     input.pop();
     console.log("removed");
+
+    ships.disableBody(true, true);
   }
   // Function to check the letters entered vs. the current word selected from the array. 
   function checkLogs(input, currentWord) {
@@ -321,22 +324,11 @@ function update() {
 
     }
   }
-  
+
 
 }
 function endIt(platform, ships) {
-  this.physic.pause();
-
-  platform.setTint(0xff0000);
-  // Set game over to true. 
-  gameOver = true;
-  ship.setTexture("explosion");
-  ship.play("explode");
-  gameOver = true;
-}
-
-function endIt(platform, ships) {
-  this.physic.pause();
+  this.physics.pause(ships);
 
   platform.setTint(0xff0000);
   // Set game over to true. 
