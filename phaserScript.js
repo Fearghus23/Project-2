@@ -7,7 +7,7 @@ var config = {
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 5 },
+      gravity: { y: 70 },
       debug: false
     }
   },
@@ -130,6 +130,13 @@ function create() {
 
   // Creates a group of ships and iterates them over the screen. 
 
+  this.anims.create({
+    key: 'explode',
+    frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: 0
+  });
+
 
 
 
@@ -143,7 +150,7 @@ function create() {
 
   // Collison effects for the ships and platform. 
   this.physics.add.overlap(platforms, ships, endIt, null, this);
-  this.physics.add.collider(ships, platforms);
+  this.physics.add.collider(ships, platforms, null, this);
   // Collison affect to call the end of game. 
 
 }
@@ -297,7 +304,7 @@ function update() {
     input.pop();
     console.log("removed");
 
-    ships.disableBody(true, true);
+
   }
   // Function to check the letters entered vs. the current word selected from the array. 
   function checkLogs(input, currentWord) {
@@ -333,9 +340,7 @@ function endIt(platform, ships) {
   platform.setTint(0xff0000);
   // Set game over to true. 
   gameOver = true;
-  ship.setTexture("explosion");
-  ship.play("explode");
+  ships.setTexture("explosion");
+  ships.anims.play("explode");
   gameOver = true;
 }
-
-
