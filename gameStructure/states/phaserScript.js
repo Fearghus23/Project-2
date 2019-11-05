@@ -102,27 +102,26 @@ var ships;
 
 // eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
-{
-  // Creates a group of ships and iterates them over the screen.
 
-  this.anims.create({
-    key: "explode",
-    frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 5 }),
-    frameRate: 20,
-    repeat: 0
-  });
+// Creates a group of ships and iterates them over the screen.
 
-  ships = this.physics.add.group({
-    key: "ship3",
-    repeat: 11,
-    setXY: { x: 12, y: 0, stepX: 70 }
-  });
+this.anims.create({
+  key: "explode",
+  frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 5 }),
+  frameRate: 20,
+  repeat: 0
+});
 
-  // Collison effects for the ships and platform.
-  this.physics.add.overlap(platforms, ships, endIt, null, this);
-  this.physics.add.collider(ships, platforms, null, this);
-  // Collison affect to call the end of game.
-}
+ships = this.physics.add.group({
+  key: "ship3",
+  repeat: 11,
+  setXY: { x: 12, y: 0, stepX: 70 }
+});
+
+// Collison effects for the ships and platform.
+this.physics.add.overlap(platforms, ships, endIt, null, this);
+this.physics.add.collider(ships, platforms, null, this);
+// Collison affect to call the end of game.
 
 function update() {
   // Should end the curernt game.
