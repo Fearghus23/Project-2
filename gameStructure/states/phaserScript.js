@@ -16,13 +16,13 @@ Game.prototype = {
           debug: false
         }
       },
-      
+
       scene: {
         preload: preload,
         create: create,
         update: update
       }
-    }; 
+    };
     config.state.add("boot", BootState);
     config.state.add("preload", PreloadState);
     config.state.add("main-intro", MainIntroState);
@@ -102,7 +102,7 @@ var ships;
 
 // eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
-
+{
   // Creates a group of ships and iterates them over the screen.
 
   this.anims.create({
