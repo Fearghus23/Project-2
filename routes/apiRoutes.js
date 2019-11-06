@@ -11,12 +11,17 @@ module.exports = function(app) {
   app.get("/api/user-login", function(req, res) {
     db.UserData.findOne({
       where: {
-        username: req.params.username,
-        password: req.params.password
+        username: req.body.username,
+        password: req.body.password
       }
     }).then(function(data) {
       console.log(data);
       res.json(data);
+      console.log({ username: data.dataValues.username });
+      res.json({
+        username: data.dataValues.username,
+        playerID: data.dataValues.playerID
+      });
     });
   });
 

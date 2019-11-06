@@ -20,9 +20,10 @@ module.exports = function(app) {
   app.get("/play-game/:username/:playerID", function(req, res) {
     db.UserData.findOne({
       where: { username: req.params.username, playerID: req.params.playerID }
-    }).then(function(dbUserData) {
+    }).then(function(data) {
       res.render("play-game-user", {
-        user: dbUserData
+        username: data.dataValues.username,
+        playerID: data.dataValues.playerID
       });
     });
   });
