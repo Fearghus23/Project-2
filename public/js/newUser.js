@@ -21,7 +21,7 @@ $("#create-user").on("click", function(event) {
         alert(res.error);
       } else {
         // Account created! redirect to game page with new user logged in.
-        window.location +=
+        window.location =
           "play-game/" + res.newUser.username + "/" + res.newUser.playerID;
       }
     });
