@@ -8,15 +8,13 @@ module.exports = function(app) {
       res.json(dbExamples);
     });
   });
-  app.get("/api/user-login", function(req, res) {
+  app.post("/api/user-login", function(req, res) {
     db.UserData.findOne({
       where: {
         username: req.body.username,
         password: req.body.password
       }
     }).then(function(data) {
-      console.log(data);
-      res.json(data);
       console.log({ username: data.dataValues.username });
       res.json({
         username: data.dataValues.username,
