@@ -17,8 +17,6 @@ var config = {
     update: update
   }
 };
-
-
 var wordArray =
   ["XML", "JSON", "OBJECT", "VARIABLE", "LET", "CONST",
     "PACKAGE", "TIM", "BODY",
@@ -148,10 +146,11 @@ function create() {
     setXY: { x: 12, y: 0, stepX: 70 }
   });
 
-  // Collison effects for the ships and platform. 
+  
   this.physics.add.overlap(platforms, ships, endIt, null, this);
   this.physics.add.collider(ships, platforms, null, this);
   // Collison affect to call the end of game. 
+  // Collison effects for the ships and platform. 
 
 }
 
@@ -172,11 +171,7 @@ function update() {
     checkLogs(input, currentWord);
     // Reset the current word. 
     currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
-    container.setText("Current: " + currentWord);
-
-
-
-
+    container.setText("Keyword: " + currentWord);
 
   }
   // Input takes the entered key and addds it to an aray. 
@@ -184,13 +179,10 @@ function update() {
   if (Phaser.Input.Keyboard.JustDown(keyQ)) {
 
     input.push('Q')
-
-
-  }
+ }
   if (Phaser.Input.Keyboard.JustDown(keyW)) {
 
     input.push('W');
-
   }
   if (Phaser.Input.Keyboard.JustDown(keyE)) {
 
@@ -210,19 +202,15 @@ function update() {
 
   }
   if (Phaser.Input.Keyboard.JustDown(keyY)) {
-
     input.push('Y');
-
   }
   if (Phaser.Input.Keyboard.JustDown(keyU)) {
 
     input.push('U');
-
   }
   if (Phaser.Input.Keyboard.JustDown(keyI)) {
 
     input.push('I');
-
   }
   if (Phaser.Input.Keyboard.JustDown(keyO)) {
 
@@ -308,30 +296,22 @@ function update() {
   }
   // Function to check the letters entered vs. the current word selected from the array. 
   function checkLogs(input, currentWord) {
-
-
     //  Joins the inputted text and changes it to a string. 
     var x = input.join("");
     console.log(x);
-
     if (x == currentWord) {
 
-
       // Clears the input for the next word
-
       input.length = 0;
-
       // Increase and update score. 
-      score += 10;
+      
+      score += 10 * currentWord.length;
       scoreText.setText("Score: " + score);
-
     } else {
       // On failuire the input also clears, there are a lot of hard words so, it seems cruel not to. 
       input.length = 0;
-
     }
   }
-
 
 }
 function endIt(platform, ships) {
