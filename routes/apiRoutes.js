@@ -8,10 +8,11 @@ module.exports = function(app) {
       res.json(dbExamples);
     });
   });
-  app.get("/api/all-users", function(req, res) {
+  app.get("/api/user-login", function(req, res) {
     db.UserData.findOne({
       where: {
-        username: req.params.username
+        username: req.params.username,
+        password: req.params.password
       }
     }).then(function(data) {
       console.log(data);
