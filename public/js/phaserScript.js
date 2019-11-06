@@ -1,15 +1,14 @@
-console.log("phaser alive");
-// eslint-disable-next-line no-unused-vars
 var config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  backgroundColor: "#010101",
   parent: "code-invaders",
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 300 },
-      debug: true
+      gravity: { y: 3 },
+      debug: false
     }
   },
   scene: {
@@ -18,13 +17,37 @@ var config = {
     update: update
   }
 };
-// eslint-disable-next-line no-unused-vars
-var currentWord = [];
-var input = [];
 
-// eslint-disable-next-line no-unused-vars
-var current;
-// eslint-disable-next-line no-unused-vars
+var wordArray = [
+  "XML",
+  "JSON",
+  "OBJECT",
+  "VARIABLE",
+  "LET",
+  "CONST",
+  "PACKAGE",
+  "TIM",
+  "BODY",
+  "LOCALHOST",
+  "LINUX",
+  "DB",
+  "QUERY",
+  "GET",
+  "POST",
+  "FETCH",
+  "DELETE",
+  "VIEWS",
+  "SCHEMA",
+  "PUSH",
+  "BASH"
+];
+
+var currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+var input = [];
+var inputText;
+var score = 0;
+var scoreText;
+
 var gameOver = false;
 var keyQ;
 var keyW;
@@ -54,16 +77,70 @@ var keyN;
 var keyM;
 // eslint-disable-next-line no-unused-vars
 var characters;
+var container;
+var Enter;
+// eslint-disable-next-line no-unused-vars
+var speed;
+var Backspace;
+var gameOver = false;
+var ships;
+
 // eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
 
 function preload() {
-  this.load.image("background", "assets/testspace.jpg");
-  this.load.image("bomb", "assets/bomb.png");
+  // Preloaded assets for the game sprites.
+  this.load.image("background", "./assets/testspace.jpg", {
+    frameWidth: 16,
+    frameHeight: 16
+  });
+  this.load.spritesheet("ship", "./assets/ship.png", {
+    frameWidth: 16,
+    frameHeight: 16
+  });
+  this.load.spritesheet("ship2", "./assets/ship2.png", {
+    frameWidth: 32,
+    frameHeight: 16
+  });
+  this.load.spritesheet("ship3", "./assets/ship3.png", {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+  this.load.spritesheet("explosion", "./assets/explosion.png", {
+    frameWidth: 16,
+    frameHeight: 16
+  });
+  this.load.image("base", "./assets/platform.png");
 }
 
 function create() {
-  // Inputs
+  console.log(currentWord);
+  this.background = this.add.image(100, 100, "background");
+  this.background.setScale(2);
+  platforms = this.physics.add.staticGroup();
+  platforms
+    .create(400, 568, "base")
+    .setScale(2)
+    .refreshBody();
+
+  // Text bars to display Score, Letters entered, and the current keyword.
+  scoreText = this.add.text(
+    16,
+    16,
+    "score: 0",
+    +{ fontSize: "32px", fill: "blue" }
+  );
+  inputText = this.add.text(16, 35, "Current: ", {
+    fontSize: "32px",
+    fill: "yellow"
+  });
+  container = this.add.text(300, 560, "Keyword: " + currentWord, {
+    fontSize: "25px",
+    fill: "#ffecf4"
+  });
+
+  // Creating inputs, binding them to keys.
+
   keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
   keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
@@ -90,158 +167,162 @@ function create() {
   keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
   keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
   keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-  // eslint-disable-next-line no-unused-vars
-  var inputText;
-  // eslint-disable-next-line no-unused-vars
-  var score = 0;
-  // eslint-disable-next-line no-unused-vars
-  var scoreText;
+  Enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+  Backspace = this.input.keyboard.addKey(
+    Phaser.Input.Keyboard.KeyCodes.BACKSPACE
+  );
 
-  var image1 = this.add.image(0, -30, "bomb");
-  var image2 = this.add.text(-40, 30, "bomb");
-  var image3 = this.add.image(40, 30, "bomb");
+  // Creates a group of ships and iterates them over the screen.
 
-  container = this.add.container(400, 200, [image1, image2, image3]);
+  this.anims.create({
+    key: "explode",
+    frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: 0
+  });
 
-  //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
-  //  body or it'll be given the default body size of 64x64.
-  container.setSize(128, 64);
+  ships = this.physics.add.group({
+    key: "ship3",
+    repeat: 10,
+    setXY: { x: 12, y: 0, stepX: 70 }
+  });
 
-  this.physics.world.enable(container);
-
-  container.body
-    .setVelocity(100, 200)
-    .setBounce(1, 1)
-    .setCollideWorldBounds(true);
-
-  // Already entered letters:
+  // Collison effects for the ships and platform.
+  this.physics.add.overlap(platforms, ships, endIt, null, this);
+  this.physics.add.collider(ships, platforms, null, this);
+  // Collison affect to call the end of game.
 }
 
 function update() {
-  this.add.image(400, 300, "background");
-
-  this.add.image("bomb");
-
-  if (container.body.velocity.x < 0) {
-    container.rotation -= 0.02;
-  } else {
-    container.rotation += 0.02;
+  // Should end the curernt game.
+  if (gameOver) {
+    return;
   }
+
+  // Display the entered words.
+
+  inputText.setText("Current: " + input);
+  // Inputs
+
+  if (Phaser.Input.Keyboard.JustDown(Enter)) {
+    // calls function to check if the entered letters are equal to the current word seleected.
+    checkLogs(input, currentWord);
+    // Reset the current word.
+    currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+    container.setText("Current: " + currentWord);
+  }
+  // Input takes the entered key and addds it to an aray.
 
   if (Phaser.Input.Keyboard.JustDown(keyQ)) {
     input.push("Q");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyW)) {
     input.push("W");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyE)) {
     input.push("E");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyR)) {
     input.push("R");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyT)) {
     input.push("T");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyY)) {
     input.push("Y");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyU)) {
     input.push("U");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyI)) {
     input.push("I");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyO)) {
     input.push("O");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyP)) {
     input.push("P");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyA)) {
     input.push("A");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyS)) {
     input.push("S");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyD)) {
     input.push("D");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyF)) {
     input.push("F");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyG)) {
     input.push("G");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyH)) {
     input.push("H");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyJ)) {
     input.push("J");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyK)) {
     input.push("K");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyL)) {
     input.push("L");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyZ)) {
     input.push("Z");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyX)) {
     input.push("X");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyC)) {
     input.push("C");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyV)) {
     input.push("V");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyB)) {
     input.push("B");
-    console.log(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyN)) {
     input.push("N");
-    console.log(input);
-    inputText.setText(input);
   }
   if (Phaser.Input.Keyboard.JustDown(keyM)) {
     input.push("M");
-    console.log(input);
-
-    inputText.setText(input);
   }
 
-  scoreText = this.add.text(16, 16, "score: 0", {
-    fontSize: "32px",
-    fill: "#000"
-  });
-  inputText = this.add.text(16, 35, "Entered Letters: " + input, {
-    fontSize: "32px",
-    fill: "#000"
-  });
+  if (Phaser.Input.Keyboard.JustDown(Backspace)) {
+    input.pop();
+    console.log("removed");
+  }
+  // Function to check the letters entered vs. the current word selected from the array.
+  function checkLogs(input, currentWord) {
+    //  Joins the inputted text and changes it to a string.
+    var x = input.join("");
+    console.log(x);
+
+    if (x === currentWord) {
+      // Clears the input for the next word
+
+      input.length = 0;
+
+      // Increase and update score.
+      score += 10;
+      scoreText.setText("Score: " + score);
+    } else {
+      // On failuire the input also clears, there are a lot of hard words so, it seems cruel not to.
+      input.length = 0;
+    }
+  }
+}
+function endIt(platform, ships) {
+  this.physics.pause(ships);
+
+  platform.setTint(0xff0000);
+  // Set game over to true.
+  gameOver = true;
+  ships.setTexture("explosion");
+  ships.anims.play("explode");
+  gameOver = true;
 }
