@@ -1,4 +1,4 @@
-console.log("phaser alive")
+console.log("phaser alive");
 // eslint-disable-next-line no-unused-vars
 var config = {
   type: Phaser.AUTO,
