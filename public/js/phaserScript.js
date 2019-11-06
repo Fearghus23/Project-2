@@ -117,8 +117,8 @@ function create() {
   console.log(currentWord);
   this.background = this.add.image(100, 100, "background");
   this.background.setScale(2);
-  platforms = this.physics.add.staticGroup();
-  platforms
+  platform = this.physics.add.staticGroup();
+  platform
     .create(400, 568, "base")
     .setScale(2)
     .refreshBody();
@@ -188,8 +188,7 @@ function create() {
   });
 
   // Collison effects for the ships and platform.
-  this.physics.add.overlap(platforms, ships, endIt, null, this);
-  this.physics.add.collider(ships, platforms, null, this);
+  this.physics.add.overlap(platform, ships, endIt, null, this);
   // Collison affect to call the end of game.
 }
 
@@ -310,6 +309,7 @@ function update() {
       // Increase and update score.
       score += 10;
       scoreText.setText("Score: " + score);
+      //ships.children.entries.pop();
     } else {
       // On failuire the input also clears, there are a lot of hard words so, it seems cruel not to.
       input.length = 0;
@@ -317,6 +317,7 @@ function update() {
   }
 }
 function endIt(platform, ships) {
+  console.log("inside end it");
   this.physics.pause(ships);
 
   platform.setTint(0xff0000);
@@ -324,5 +325,4 @@ function endIt(platform, ships) {
   gameOver = true;
   ships.setTexture("explosion");
   ships.anims.play("explode");
-  gameOver = true;
 }
