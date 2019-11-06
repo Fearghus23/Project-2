@@ -303,7 +303,7 @@ function update() {
 
       // Clears the input for the next word
       input.length = 0;
-      // Increase and update score. 
+      // Increase and update score.
       
       score += 10 * currentWord.length;
       scoreText.setText("Score: " + score);
